@@ -1,0 +1,227 @@
+<html>
+<head>
+<title>My Webcams</title>
+<style type="text/css">
+body {
+  background-image: url('pink_background.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+h2 {
+  color: black;
+  font-family: calibri;
+  font-size: 300%;
+}
+
+img { border: 1px solid #000000; }
+input { background: #FFFFFF; border: 1px solid #cfcfcf; }
+</style>
+</head>
+<body onload="start()">
+<span style="position:absolute;left:1px;top:1px;z-index:1;visibility:hidden;"><img src="conflict.gif" width="1" height="1">
+<img src="offline-new.gif" width="1" height="1"></font></span>
+<script>
+
+$cam1=500;
+$cam2=500;
+
+</script>
+<center><h2>Visual And Thermal Image</h2>
+
+<table border="0" cellpadding="1" cellspacing="1">
+<tr>
+<td><div align="center" id="updating1"><font size=1>Waiting</div>
+<td><div align="center" id="updating2"><font size=1>Waiting</div>
+<tr>
+<td>
+<img src="offline.jpg" name="pic" border="0" width="352" height="288" alt="If image is not shown, please wait up to 20 seconds." OnError="error1()">
+<td>
+<img src="offline2.jpg" name="pic1" border="0" width="352" height="288" alt="If image isnt shown, please wait up to 20 seconds." OnError="error2()">
+<tr>
+
+<td>
+<div align="center">
+<form name="cam1">
+<div id="div1">
+<input type="button" value="Turn Camera On" name="button" onclick="cam1on()">
+</div>
+</form>
+</div>
+
+<td>
+<div align="center">
+<form name="cam2">
+<div id="div2">
+<input type="button" value="Turn Camera On" name="button" onclick="cam2on()">
+</div>
+</form>
+</div>
+</table>
+
+<script>
+function cam1on(){
+a=1;
+update1();
+document.all.div1.innerHTML = '<input type="button" value="Turning On..." name="button" onclick="cam1off()" disabled>';
+setTimeout('cam1wait()', 1500);
+}
+
+function cam1off(){
+a=0;
+document.all.div1.innerHTML = '<input type="button" value="Turning Off..." name="button" disabled>';
+setTimeout('cam1wait2()', 1500);
+}
+
+function cam1wait(){
+document.all.div1.innerHTML = '<input type="button" value="Turn Camera Off" name="button" onclick="cam1off()">';
+}
+
+function cam1wait2(){
+document.all.div1.innerHTML = '<input type="button" value="Turn Camera On" name="button" onclick="cam1on()">';
+}
+</script>
+
+<script>
+function cam2on(){
+b=1;
+update2();
+document.all.div2.innerHTML = '<input type="button" value="Turning On..." name="button" onclick="cam2off()" disabled>';
+setTimeout('cam2wait()', 500);
+}
+
+function cam2off(){
+b=0;
+document.all.div2.innerHTML = '<input type="button" value="Turning Off..." name="button" disabled>';
+setTimeout('cam2wait2()', 500);
+}
+
+function cam2wait(){
+document.all.div2.innerHTML = '<input type="button" value="Turn Thermal Cam Off" name="button" onclick="cam2off()">';
+}
+
+function cam2wait2(){
+document.all.div2.innerHTML = '<input type="button" value="Turn Camera On" name="button" onclick="cam2on()">';
+}
+</script>
+
+<script>
+function camsoffauto(){
+if(a==0){
+error1();
+}
+if(b==0){
+error2();
+}
+</script>
+
+<script>
+a=0;
+b=0;
+
+  var pict = new Array(2);
+  pict[0] = new Image(); 
+  pict[1] = new Image();
+
+function start(){
+preload1();
+setTimeout('preload2()', 100);
+camsoffauto();
+defaultStatus="Done";
+}
+
+function preload1() {
+  var now = new Date();
+  pict[0].src = 'camimage.jpg?' + now.getTime();
+if(a==1){
+  setTimeout('update1()', $cam1);
+}
+}
+
+function preload2() {
+  var now = new Date();
+  pict[1].src = 'thermalimage.jpg?' + now.getTime();
+if(b==1){
+  setTimeout('update2()', $cam2);
+}
+}
+
+function update1() {
+  document.getElementById('updating1').innerHTML = '<font size=1><b>Updating';
+  setTimeout("document.getElementById('updating1').innerHTML = '<font size=1>Waiting';", 1000);
+  document.images['pic'].src = pict[0].src;
+  f="+f+a1+";
+  preload1();
+}
+
+function update2() {
+  document.getElementById('updating2').innerHTML = '<font size=1><b>Updating';
+  setTimeout("document.getElementById('updating2').innerHTML = '<font size=1>Waiting';", 1000);
+  document.images['pic1'].src = pict[1].src;
+  preload2();
+}
+
+function error1(){
+if(a==1){
+  document.images['pic'].src = "conflict.gif";
+}
+else{
+  document.images['pic'].src = "offline-new.gif";
+}
+}
+
+function error2(){
+if(b==1){
+  document.images['pic1'].src = "conflict.gif";
+}
+else{
+  document.images['pic1'].src = "offline-new.gif";
+}
+}
+
+setTimeout("cam1on()", 250);
+setTimeout("cam2on()", 1250);
+</script>
+
+<script>
+var seconds=60
+document.getElementById('clock').value='0'
+
+function display(){
+
+if(seconds==1){
+	document.location = 'bwsave.htm';
+}
+
+
+if(seconds < 61){
+	document.getElementById('moretime').disabled=false;
+	document.getElementById('moretime').value = "Click here to increase this limit by 10 minutes.";
+}
+
+
+if(document.getElementById('moretime').disabled==true){
+	document.getElementById('moretime').style.color = '#c0c0c0';
+}
+else{
+	document.getElementById('moretime').style.color = '#000000';
+}
+
+if(seconds < 31){
+	document.getElementById('moretime').style.background = '#FF0000';
+	document.getElementById('moretime').style.color = '#FFFFFF';
+	setTimeout("document.getElementById('moretime').style.background = '#FFFFFF'", 500);
+	setTimeout("document.getElementById('moretime').style.color = '#000000'", 500);
+}
+else{
+	document.getElementById('moretime').style.background = '#FFFFFF';
+
+}
+seconds-=1
+document.getElementById('clock').value=seconds
+setTimeout("display()", 1000)
+}
+display()
+</script>
+</body>
+</html>
